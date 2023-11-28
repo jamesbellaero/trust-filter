@@ -6,23 +6,37 @@ function [ephemData,metaData] = getLunarEphem(t0JD,tfJD,dt,includeMetaData)
 %
 % INPUTS
 %
-% t   ------------- Time in JDUTC
+% t0JD ------------ Time to start ephemeris in JD
 %
-% params.lunarEph - Coefficients or something
+% tfJD ------------ Time to end ephemeris in JD
+%
+% dt -------------- Time step in seconds. Minimum value is 60
+%
+% includeMetaData - Boolean value to include metadata in the
+%                   request/response
 %
 % OUTPUTS
 %
-% R_LCLF_LCI ----- 3 x 3 matrix where x_LCLF = R_LCLF_LCI * x_LCI
+% ephemData ------- n x 7 matrix where the first column is time (JD), the
+%                   next 3 are lunar position (ICRF, geocentric), and the
+%                   last 3 are lunar velocity (ICRF, geocentric). Length n
+%                   is the number of time steps between t0 and tf
+%
+% metaData -------- List of lines from the metadata sent by JPL Horizons
 % 
 %+------------------------------------------------------------------------------+
-% Source: 
+% Source: JPL Horizons - https://ssd.jpl.nasa.gov/horizons/manual.html
 %
 %+==============================================================================+
 % Written by James Bell, Infinity Labs, james.bell@i-labs.tech
-% Last edited 2023
-% <Insert License>
+% Last edited Dec 2023
+%  
+% Copyright 2023 Infinity Labs, LLC. All rights reserved.
+% 
+% The use, dissemination or disclosure of data in this file is subject to
+% limitation or restriction. See UTAUS-FA00002493 for details
+%+==============================================================================+
 
-%https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND='499'&OBJ_DATA='YES'&MAKE_EPHEM='YES'&EPHEM_TYPE='OBSERVER'&CENTER='500@399'&START_TIME='2006-01-01'&STOP_TIME='2006-01-20'&STEP_SIZE='1%20d'&QUANTITIES='1,9,20,23,24,29'
 if(nargin == 3)
     includeMetaData = 0;
 end
@@ -77,15 +91,5 @@ for i = 1:size(data,1)
 end
 
 metaData = dataList(1:startInd);
-
-% Find where the data starts
-% Read the data until it ends
-% First split by new line?
-
-
-
-
-
-
 
 end
