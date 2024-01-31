@@ -27,7 +27,7 @@ function [rEmbr, vEmbr] = convertEci2Embr(rEci, vEci, rL, vL, params)
 % vEci ------------ 3 x 1 velocity of object in EMBR
 % 
 %+------------------------------------------------------------------------------+
-% Source: 
+% Source: First principles and a pen (aka none, could be wrong)
 %
 %+==============================================================================+
 % Written by James Bell, Infinity Labs, james.bell@i-labs.tech

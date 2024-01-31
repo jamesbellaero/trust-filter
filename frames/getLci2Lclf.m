@@ -1,10 +1,12 @@
-function [R_CRTBP_ICRF, w_CRTBP_ICRF] = getIcrf2Crtbp(rL, vL, params)
-% getIcrf2Crtbp   : Compute and return a rotation matrix and rotation rate
-%                   vector which transform position and velocity from the
-%                   ICRF intertial frame to the CRTBP rotating frame. This
-%                   includes no offsets, just the rotational components
+function [R_LCLF_LCI, w_LCLF_LCI] = getLci2Lclf(tJD, rL, vL, params)
+% R_LCLF_LCI      : Compute the rotation and rotation rate of the lunar
+%                   fixed frame relative to the ICRF frame. The rotation
+%                   rate is, for the most part, just the rotation rate of
+%                   the moon around the earth (AKA that of the CRTBP frame)
 %
 % INPUTS
+%
+% tJD ------------- Time in JD
 %
 % rL -------------- 3 x 1 position of the moon relative to the earth in ECI
 %                   (ICRF)
@@ -18,13 +20,12 @@ function [R_CRTBP_ICRF, w_CRTBP_ICRF] = getIcrf2Crtbp(rL, vL, params)
 %
 % OUTPUTS
 %
-% R_CRTBP_ICRF ---- 3 x 3 matrix where x_ICRF = R_ICRF_CRTBP * x_CRTBP
-%
-% w_CRTBP_ICRF ---- 3 x 1 vector describing the rotation of the CRTBP frame
-%                   relative to and defined in the ICRF frame
+% R_LCLF_LCI ----- 3 x 3 matrix where x_LCLF = R_LCLF_LCI * x_LCI
 % 
 %+------------------------------------------------------------------------------+
-% Source: First principles and a pen (aka none, could be wrong)
+% Source: https://ntrs.nasa.gov/api/citations/20210021336/downloads/Lunar_inertia_Ahrens.pdf
+%
+% https://lunar.gsfc.nasa.gov/library/LunCoordWhitePaper-10-08.pdf
 %
 %+==============================================================================+
 % Written by James Bell, Infinity Labs, james.bell@i-labs.tech
@@ -36,12 +37,5 @@ function [R_CRTBP_ICRF, w_CRTBP_ICRF] = getIcrf2Crtbp(rL, vL, params)
 % limitation or restriction. See UTAUS-FA00002493 for details
 %+==============================================================================+
 
-w = cross(rL,vL);
-iX = rL/norm(rL);
-iY = w/norm(w);
-iZ = cross(iX,iY)/norm(cross(iX,iY));
-
-R_CRTBP_ICRF = [iX;iY;iZ]';
-w_CRTBP_ICRF = w;
 
 end

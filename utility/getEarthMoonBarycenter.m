@@ -17,7 +17,7 @@ function rB = getEarthMoonBarycenter(rL, params)
 % rB -------------- Position of Earth-Moon barycenter 
 % 
 %+------------------------------------------------------------------------------+
-% Source: 
+% Source: First principles and a pen (aka none, could be wrong)
 %
 %+==============================================================================+
 % Written by James Bell, Infinity Labs, james.bell@i-labs.tech
