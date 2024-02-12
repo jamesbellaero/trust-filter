@@ -1,8 +1,5 @@
 function rB = getEarthMoonBarycenter(rL, params)
-% getEci2Embr     : Compute and return a rotation matrix which transforms a
-%                   3x1 position vector from the Lunar-centered, Lunar-fixed
-%                   frame to the Lunar-centered rotating frame (x toward
-%                   earth)
+% getEarthMoonBarycenter: Compute location of barycenter in ECI
 %
 % INPUTS
 %
@@ -14,7 +11,7 @@ function rB = getEarthMoonBarycenter(rL, params)
 %
 % OUTPUTS
 %
-% rB -------------- Position of Earth-Moon barycenter 
+% rB -------------- Position of Earth-Moon barycenter in ECI
 % 
 %+------------------------------------------------------------------------------+
 % Source: First principles and a pen (aka none, could be wrong)
