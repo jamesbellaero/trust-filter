@@ -1,4 +1,4 @@
-function [ephemData,metaData] = getLunarEphem(t0JD,tfJD,dt,includeMetaData)
+function [ephemData,metaData,response] = getTargetEphem(t0JD,tfJD,dt,target,center,frame,includeMetaData)
 % getLunarEphem   : Compute and return a rotation matrix which transforms a
 %                   3x1 position vector from the Lunar-centered, Lunar-fixed
 %                   frame to the Lunar-centered rotating frame (x toward
@@ -37,11 +37,11 @@ function [ephemData,metaData] = getLunarEphem(t0JD,tfJD,dt,includeMetaData)
 % limitation or restriction. See UTAUS-FA00002493 for details
 %+==============================================================================+
 
-if(nargin == 3)
+if(nargin == 6)
     includeMetaData = 0;
 end
 
-COMMAND = "301";
+COMMAND = target;
 if(includeMetaData)
     OBJ_DATA = "YES";
 else
@@ -49,15 +49,17 @@ else
 end
 MAKE_EPHEM = "YES";
 EPHEM_TYPE = "VECTORS";
-CENTER = "500@399";
+CENTER = center;
 START_TIME = "JD"+num2str(t0JD);
 STOP_TIME = "JD"+num2str(tfJD);
 % Assumes that dt input is in seconds:
-STEP_SIZE = num2str(round(max(dt/60,1)),"%d")+"m";
+STEP_SIZE = num2str(round(max(dt/60,1)),"%d")+"MINUTES";
 VEC_TABLE = "2";
 CSV_FORMAT = "YES";
 VEC_DELTA_T = "YES";
 REF_PLANE = "FRAME";
+OUT_UNITS = "KM-S";
+REF_SYSTEM='ICRF';
 
 apiAddr = "https://ssd.jpl.nasa.gov/api/horizons.api";
 
@@ -69,7 +71,8 @@ reqUri = apiAddr + "?format=text" + makeOpt("COMMAND",COMMAND) + makeOpt( ...
     "OBJ_DATA",OBJ_DATA) + makeOpt("MAKE_EPHEM",MAKE_EPHEM) + makeOpt("CENTER",CENTER) + makeOpt( ...
     "START_TIME",START_TIME) + makeOpt("STOP_TIME",STOP_TIME) + makeOpt("STEP_SIZE",STEP_SIZE) + makeOpt( ...
     "VEC_TABLE",VEC_TABLE) + makeOpt("CSV_FORMAT",CSV_FORMAT) + makeOpt("VEC_DELTA_T",VEC_DELTA_T) + ...
-    makeOpt("REF_PLANE",REF_PLANE)+makeOpt("EPHEM_TYPE",EPHEM_TYPE);
+    makeOpt(frame,REF_PLANE)+makeOpt("EPHEM_TYPE",EPHEM_TYPE)+makeOpt("OUT_UNITS",OUT_UNITS) + makeOpt(...
+    "REF_SYSTEM",REF_SYSTEM);
 
 reqMsg = matlab.net.http.RequestMessage;
 response = send(reqMsg,reqUri);

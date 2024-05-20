@@ -26,14 +26,13 @@ for i = 2:nt
         % value. Matlab doesn't give much control over it unfortunately.
         entity_list(j).propagate(time,entity_list,params);
     end
-
-
     % Call measurements for all entities. This can be parallelized.
     for sensing_entity = entity_list
         for j = 1:ne
             if(isequal(sensing_entity,entity_list(j)))
                 continue
             end
+            % make measurements
             measurements = sensing_entity.make_measurements(time,entity_list(j),params);
             entity_list(j).add_measurements_for_processing(measurements);
         end

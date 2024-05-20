@@ -1,12 +1,13 @@
-function [R_LCLF_LCI, w_LCLF_LCI] = getLci2Lclf(tJD, rL, vL, params)
-% R_LCLF_LCI      : Compute the rotation and rotation rate of the lunar
-%                   fixed frame relative to the ICRF frame. The rotation
-%                   rate is, for the most part, just the rotation rate of
-%                   the moon around the earth (AKA that of the CRTBP frame)
+function [rEmbr, vEmbr] = convertEci2Embr(rEmbr_icrf, vEmbr_icrf, rL, vL, params)
+% getEci2Embr     : Convert position and velocity in the ECI frame to
+%                   position and velocity in the rotating earth-moon frame
+%                   centered at the Earth-Moon barycenter
 %
 % INPUTS
 %
-% tJD ------------- Time in JD
+% rEci ------------ 3 x 1 position of object in ECI
+%
+% vEci ------------ 3 x 1 velocity of object in ECI
 %
 % rL -------------- 3 x 1 position of the moon relative to the earth in ECI
 %                   (ICRF)
@@ -18,14 +19,15 @@ function [R_LCLF_LCI, w_LCLF_LCI] = getLci2Lclf(tJD, rL, vL, params)
 % 
 % params.muL ------ Gravitational parameter for the moon (Luna)
 %
+%
 % OUTPUTS
 %
-% R_LCLF_LCI ----- 3 x 3 matrix where x_LCLF = R_LCLF_LCI * x_LCI
+% rEci ------------ 3 x 1 position of object in EMBR
+%
+% vEci ------------ 3 x 1 velocity of object in EMBR
 % 
 %+------------------------------------------------------------------------------+
-% Source: https://ntrs.nasa.gov/api/citations/20210021336/downloads/Lunar_inertia_Ahrens.pdf
-%
-% https://lunar.gsfc.nasa.gov/library/LunCoordWhitePaper-10-08.pdf
+% Source: First principles and a pen (aka none, could be wrong)
 %
 %+==============================================================================+
 % Written by James Bell, Infinity Labs, james.bell@i-labs.tech
@@ -36,6 +38,30 @@ function [R_LCLF_LCI, w_LCLF_LCI] = getLci2Lclf(tJD, rL, vL, params)
 % The use, dissemination or disclosure of data in this file is subject to
 % limitation or restriction. See UTAUS-FA00002493 for details
 %+==============================================================================+
+
+
+[R_CRTBP_ICRF,w_CRTBP_ICRF] = getIcrf2Crtbp(rL,vL,params);
+
+% Get location of object w.r.t. barycenter in the rotating frame
+rEmbr = R_CRTBP_ICRF*(rEmbr_icrf);
+% Get velocity of the object w.r.t. barycenter in the rotating frame
+vEmbr = R_CRTBP_ICRF*(vEmbr_icrf - cross(w_CRTBP_ICRF,rEmbr_icrf));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 end

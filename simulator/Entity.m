@@ -33,7 +33,7 @@ classdef Entity < handle
         end
         function measurements = make_measurements(obj,time,target,params)
             measurements = [];
-            for model = measurement_models
+            for model = obj.sensorList
                 if(model.can_view(true_state,target))
                     meas = Measurement();
                     meas.time = time;
@@ -55,7 +55,8 @@ classdef Entity < handle
             end
 
             if(~isempty(obj.dynamics_model))
-                [~,truth_t] = ode45(@(t,y) obj.dynamics_model(t,y,control_force,params),[obj.prev_time,time],obj.state.truth);
+                options = odeset('RelTol',3e-14,'AbsTol',1e-15);
+                [~,truth_t] = ode45(@(t,y) obj.dynamics_model(t,y,control_force),[obj.prev_time,time],obj.state.truth,options);
                 obj.state.truth = truth_t(end,:)';
             end
 

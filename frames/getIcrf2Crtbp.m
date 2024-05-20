@@ -36,12 +36,12 @@ function [R_CRTBP_ICRF, w_CRTBP_ICRF] = getIcrf2Crtbp(rL, vL, params)
 % limitation or restriction. See UTAUS-FA00002493 for details
 %+==============================================================================+
 
-w = cross(rL,vL);
+w = cross(rL,vL)/norm(rL)^2;
 iX = rL/norm(rL);
-iY = w/norm(w);
-iZ = cross(iX,iY)/norm(cross(iX,iY));
+iZ = w/norm(w);
+iY = cross(iZ,iX)/norm(cross(iZ,iX));
 
-R_CRTBP_ICRF = [iX;iY;iZ]';
+R_CRTBP_ICRF = [iX,iY,iZ]';
 w_CRTBP_ICRF = w;
 
 end

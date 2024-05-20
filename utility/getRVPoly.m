@@ -29,17 +29,15 @@ function [r,v] = getRVPoly(tJD,ephem)
 % The use, dissemination or disclosure of data in this file is subject to
 % limitation or restriction. See UTAUS-FA00002493 for details
 %+==============================================================================+
-ephem = params.lunarEph;
+[~,inds] = mink(abs(ephem(1,:)-tJD),10);
 
-[~,inds] = mink(abs(ephem(:,1)-tJD));
-models = zeros(6,1);
-
+models = zeros(6,3);
 for i=1:6
-    models(i) = polyfit(ephem(inds,1),ephem(inds,2:7),3);
+    models(i,:) = polyfit(ephem(1,inds),ephem(1+i,inds),2);
    % model(i) = polyval(model,tJD);
 end
 
-r = models(1:3);
-v = models(4:6);
+r = models(1:3,:);
+v = models(4:6,:);
 
 end

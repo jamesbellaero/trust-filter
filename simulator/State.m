@@ -6,6 +6,7 @@ classdef State
         truth
         estimate
         covariance
+        frame
     end
 
     methods
