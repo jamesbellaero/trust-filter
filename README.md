@@ -1,21 +1,13 @@
 <p style="text-align: center;">🟢Unclassified🟢</p>
 
-// ****************************************************************************
-
-//
-
-// Cislunar Prop
-
-//
-
-// Copyright 2024 Infinity Labs, LLC. All rights reserved.
-
-//
-
-// The use, dissemination or disclosure of data in this file is subject to
-
-// limitation or restriction. See UTAUS-FA00002493 for details
-
+// ****************************************************************************\
+//\
+// Cislunar Prop\
+//\
+// Copyright 2024 Infinity Labs, LLC. All rights reserved.\
+//\
+// The use, dissemination or disclosure of data in this file is subject to\
+// limitation or restriction. See UTAUS-FA00002493 for details\
 // ****************************************************************************
 
 # Cislunar Prop
